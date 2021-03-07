@@ -22,39 +22,46 @@ public class Game {
 		{
 			if(turn == BLACK_PLAYER)
 			{
+				System.out.println();
 				board.print_board();
 				System.out.println();
-				System.out.println("Black player: type x: ");
-				x = input.nextInt();
-				System.out.println("Black player: type y: ");
-				y = input.nextInt();
 				do
 				{
+					System.out.println("Black player: type x: ");
+					x = input.nextInt();
+					System.out.println("Black player: type y: ");
+					y = input.nextInt();
 					vaild_move = board.vaild_move(x, y);
 					if(vaild_move)
 						board.PutPiece(x, y, BLACK_DISK);
 				}
-				while(vaild_move);
+				while(!vaild_move);
+				
 				board.UpdateBoard();
+				System.out.println();
 				board.print_board();
+				System.out.println();
 			}
 			else
 			{
+				System.out.println();
 				board.print_board();
 				System.out.println();
-				System.out.println("White player: type x: ");
-				x = input.nextInt();
-				System.out.println("White player: type y: ");
-				y = input.nextInt();
 				do
 				{
+					System.out.println("Black player: type x: ");
+					x = input.nextInt();
+					System.out.println("Black player: type y: ");
+					y = input.nextInt();
 					vaild_move = board.vaild_move(x, y);
 					if(vaild_move)
 						board.PutPiece(x, y, BLACK_DISK);
 				}
-				while(vaild_move);
+				while(!vaild_move);
 				board.UpdateBoard();
+				System.out.println();
 				board.print_board();
+				System.out.println();
 			}
 		}
 		winner = board.check_winner();
