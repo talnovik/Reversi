@@ -37,10 +37,11 @@ public class Game {
 				}
 				while(!vaild_move);
 				
-				board.UpdateBoard();
+				board.UpdateBoardFix(x,y);
 				System.out.println();
 				board.print_board();
 				System.out.println();
+				turn = WHITE_PLAYER;
 			}
 			else
 			{
@@ -49,19 +50,20 @@ public class Game {
 				System.out.println();
 				do
 				{
-					System.out.println("Black player: type x: ");
+					System.out.println("White player: type x: ");
 					x = input.nextInt();
-					System.out.println("Black player: type y: ");
+					System.out.println("White player: type y: ");
 					y = input.nextInt();
 					vaild_move = board.vaild_move(x, y);
 					if(vaild_move)
-						board.PutPiece(x, y, BLACK_DISK);
+						board.PutPiece(x, y, WHITE_DISK);
 				}
 				while(!vaild_move);
-				board.UpdateBoard();
+				board.UpdateBoardFix(x,y);
 				System.out.println();
 				board.print_board();
 				System.out.println();
+				turn = BLACK_PLAYER;
 			}
 		}
 		winner = board.check_winner();
