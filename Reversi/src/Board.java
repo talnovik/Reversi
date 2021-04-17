@@ -4,6 +4,7 @@ public class Board {
 	private static final int EMPTY = 0;
 	private static final int BLACK_DISK = 1;
 	private static final int WHITE_DISK = 2;
+	private int turn;
 	private int [][] board = new int[SIZE][SIZE]; // 0 = empty, 1 = black, 2 = white
 	
 	
@@ -24,6 +25,14 @@ public class Board {
 
 	}
 	
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+
 	public void print_board()
 	{
 		for(int i = 0; i < SIZE; i++)
@@ -65,16 +74,34 @@ public class Board {
 	
 	public boolean game_over()
 	{
+		
+		int count_black = 0;
+		int count_white = 0;
 		for(int i = 0; i<SIZE; i++)
 		{
-			for(int j=0; j<SIZE; j++)
+			for(int j = 0; j<SIZE; j++)
+			{
+				if(board[i][j] == BLACK_DISK)
+					count_black++;
+				else if(board[i][j] == WHITE_DISK)
+					count_white++;
+				
+			}
+		}
+			
+		if(count_black == 0 || count_white == 0)
+			return true;
+		
+		
+		for(int i = 0; i<SIZE; i++)
+		{
+			for(int j = 0; j<SIZE; j++)
 			{
 				if(GetPiece(i, j) == EMPTY)
 					return false;
 			}
 		}
 		return true;
-				
 	}
 	
 	public int check_winner()
@@ -671,6 +698,117 @@ public class Board {
 				
 			}
 		}
+	}
+	
+	
+	public void updateBoardFix2(int x, int y, int color)
+	{
+		int i, j;
+		if(x < SIZE - 1)
+		{
+			for (i = x+1, j = y; i < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (; i > x; i--)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(x > 0)
+		{
+			for (i = x-1, j = y; i > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (; i < x; i++)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(y < SIZE - 1)
+		{
+			for (i = x, j = y+1; j < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; j++)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (; j > y; j--)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(y > 0)
+		{
+			for (i = x, j = y-1; j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; j--)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (; j < y; j++)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(x < SIZE - 1 && y < SIZE - 1)
+		{
+			for (i = x+1, j = y+1; i < SIZE-1 && j < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++, j++)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (;i > x && j > y; i--, j--)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(x < SIZE - 1 && y > 0)
+		{
+			for (i = x+1, j = y-1; i < SIZE-1 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++, j--)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (;i > x && j < y; i--, j++)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(x > 0 && y < SIZE - 1)
+		{
+			for (i = x-1, j = y+1; i < SIZE-1 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--, j++)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (;i < x && j > y; i++, j--)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		if(x > 0 && y > 0)
+		{
+			for (i = x-1, j = y-1; i > 0 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--, j--)
+			{
+			}
+			if (GetPiece(i, j) == color)
+			{
+				for (;i < x && j < y; i++, j++)
+				{
+					PutPiece(i, j, color);
+				}
+			}
+		}
+		
 	}
 	
 	
