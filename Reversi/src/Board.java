@@ -127,6 +127,36 @@ public class Board {
 			return EMPTY;
 	}
 	
+	public int count_black()
+	{
+		int count = 0;
+		for(int i = 0; i<SIZE; i++)
+		{
+			for(int j=0; j<SIZE; j++)
+			{
+				if(board[i][j] == BLACK_DISK)
+					count++;
+				
+			}
+		}
+		return count;
+	}
+	
+	public int count_white()
+	{
+		int count = 0;
+		for(int i = 0; i<SIZE; i++)
+		{
+			for(int j=0; j<SIZE; j++)
+			{
+				if(board[i][j] == WHITE_DISK)
+					count++;
+				
+			}
+		}
+		return count;
+	}
+	
 	public boolean block_by_line(int x)
 	{
 		int blocker1 = EMPTY;

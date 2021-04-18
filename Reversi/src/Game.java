@@ -22,16 +22,15 @@ public class Game {
 		boolean vaild_move;
 		int winner;
 		while(!board.game_over())
-		{
-			
+		{	
 		}
 		winner = board.check_winner();
 		if(winner == BLACK_DISK)
-			System.out.println("Black Player wins");
+			GamePanel.setTitle("Black Player Wins");
 		else if(winner == WHITE_DISK)
-			System.out.println("White Player wins");
+			GamePanel.setTitle("White Player wins");
 		else
-			System.out.println("Tie");
+			GamePanel.setTitle("Tie");
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {

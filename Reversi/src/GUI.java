@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.event.*;
 import java.sql.SQLClientInfoException;
@@ -16,11 +17,83 @@ public class GUI extends JFrame  implements MouseListener{
 	private static JPanel bottomPanel = new JPanel();
 	private static Board board;
 	private JLabel title;
+	private static JPanel menu = new JPanel();
+	private static JButton vsplayer = new JButton();
+	private static JButton vsAI = new JButton();
+	private static JButton exit = new JButton();
+	private static JLabel menuTitle = new JLabel();
+	private static JLabel countBlack = new JLabel();
+	private static JLabel countWhite = new JLabel();
 	
 
 	public GUI(Board b)
 	{
 		board = b;
+		menu();
+	}
+	
+	public Dimension getPreferredSize() { 
+ 	   return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	}
+	
+	public void menu()
+	{
+		setSize(DEFAULT_WIDTH/3, DEFAULT_HEIGHT/3);
+		
+		
+		Container mainP = getContentPane();
+        mainP.setLayout(null);
+
+        menuTitle = new JLabel("Reversi");
+        vsplayer = new JButton("Player VS Player");
+        vsAI = new JButton("Player VS COM");
+        exit = new JButton("Exit");
+
+
+        mainP.add(menuTitle);
+        menuTitle.setFont(new Font("Chiller",Font.BOLD,50));
+        menuTitle.setBounds(140, 30, 200, 50);
+
+        mainP.add(vsplayer);
+        vsplayer.setMnemonic(KeyEvent.VK_S);
+        vsplayer.setBounds(100, 80, 200, 30);
+
+        mainP.add(vsAI);
+        vsAI.setMnemonic(KeyEvent.VK_H);
+        vsAI.setBounds(100, 110, 200, 30);
+
+
+        mainP.add(exit);
+        exit.setMnemonic(KeyEvent.VK_E);
+        exit.setBounds(100, 140, 200, 30);
+
+
+        vsplayer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainP.removeAll();
+				gamePVP();
+			}
+		});
+        
+		exit.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.exit(1);
+					}
+				});
+		        
+        
+
+        setResizable(false);
+		setVisible(true);
+	}
+	
+	
+	public void gamePVP()
+	{
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		title = new JLabel("TURN: BLACK PLAYER");
 		Font font = new Font("TURN: BLACK PLAYER", Font.BOLD, 25);
@@ -29,16 +102,23 @@ public class GUI extends JFrame  implements MouseListener{
 		TitlePanel.setSize(1200, 50);
 		TitlePanel.setVisible(true);
 		game = new PaintBoard(board);
-		game.setSize(1200, 800);
+		game.setSize(1200, 860);
 		add(TitlePanel);
 		add(game);
+		Container gameP = getContentPane();
+        gameP.setLayout(null);
+        gameP.add(countBlack);
+        countBlack.setFont(new Font("Arial",Font.BOLD,35));
+        countWhite.setFont(new Font("Arial",Font.BOLD,35));
+        countBlack.setText("Black Disks: " + board.count_black());
+		countWhite.setText("White Disks: " + board.count_white());
+        countBlack.setBounds(200, 880, 300, 50);
+        countWhite.setBounds(800, 880, 300, 50);
+        gameP.add(countWhite);
+        countBlack.setVisible(true);
 		setVisible(true);
 		this.addMouseListener(this);
 		pack();
-	}
-	
-	public Dimension getPreferredSize() { 
- 	   return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	
 	@Override
@@ -60,7 +140,14 @@ public class GUI extends JFrame  implements MouseListener{
 			else
 				title.setText("TURN: WHITE PLAYER");
 		}
+		countBlack.setText("Black Disks: " + board.count_black());
+		countWhite.setText("White Disks: " + board.count_white());
 		repaint();
+	}
+	
+	public void setTitle(String s)
+	{
+		title.setText(s);
 	}
 
 	@Override
