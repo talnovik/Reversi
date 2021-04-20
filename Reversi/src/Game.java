@@ -19,10 +19,30 @@ public class Game {
 		board.setTurn(BLACK_DISK);
 		int x;
 		int y;
-		boolean vaild_move;
 		int winner;
 		while(!board.game_over())
 		{	
+			if(GamePanel.getclick() == true)
+			{
+				GamePanel.setclick(false);
+				x = GamePanel.getposx();
+				y = GamePanel.getposy();
+				int turn = board.getTurn();
+				if (board.vaild_move(x, y))
+				{
+					board.PutPiece(x, y, turn);
+					board.updateBoardFix2(x,y, turn);
+					if (board.getTurn() == BLACK_DISK)
+						board.setTurn(WHITE_DISK);
+					else
+						board.setTurn(BLACK_DISK);
+					if(board.getTurn() == BLACK_DISK)
+						GamePanel.setTitle("TURN: BLACK PLAYER");
+					else
+						GamePanel.setTitle("TURN: WHITE PLAYER");
+				}
+			}
+			GamePanel.repaint();
 		}
 		winner = board.check_winner();
 		if(winner == BLACK_DISK)

@@ -16,6 +16,8 @@ public class GUI extends JFrame  implements MouseListener{
 	private static PaintBoard game;
 	private static JPanel bottomPanel = new JPanel();
 	private static Board board;
+	private static int posx;
+	private static int posy;
 	private JLabel title;
 	private static JPanel menu = new JPanel();
 	private static JButton vsplayer = new JButton();
@@ -24,6 +26,7 @@ public class GUI extends JFrame  implements MouseListener{
 	private static JLabel menuTitle = new JLabel();
 	private static JLabel countBlack = new JLabel();
 	private static JLabel countWhite = new JLabel();
+	private static boolean click;
 	
 
 	public GUI(Board b)
@@ -123,11 +126,20 @@ public class GUI extends JFrame  implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
 		int x = e.getX(), y = e.getY();
-		int turn = board.getTurn();
+		if(x >= 210 && y >= 80 && x <= 1010 && y <= 880)
+		{
+			this.posx = x/SQUARE - 2;
+			this.posy = (y - 80)/SQUARE;
+			this.click = true;
+		}
+		/*
+		int x = e.getX(), y = e.getY();
 		x = x/SQUARE - 2;
 		y = (y - 80)/SQUARE;
-		if (board.GetPiece(x, y) == EMPTY)
+		int turn = board.getTurn();
+		if (board.vaild_move(x, y))
 		{
 			board.PutPiece(x, y, turn);
 			board.updateBoardFix2(x,y, turn);
@@ -143,11 +155,37 @@ public class GUI extends JFrame  implements MouseListener{
 		countBlack.setText("Black Disks: " + board.count_black());
 		countWhite.setText("White Disks: " + board.count_white());
 		repaint();
+		
+		*/
+		
+		countBlack.setText("Black Disks: " + board.count_black());
+		countWhite.setText("White Disks: " + board.count_white());
+		repaint();
 	}
 	
 	public void setTitle(String s)
 	{
 		title.setText(s);
+	}
+	
+	public int getposx()
+	{
+		return this.posx;
+	}
+	
+	public int getposy()
+	{
+		return this.posy;
+	}
+	
+	public boolean getclick()
+	{
+		return this.click;
+	}
+	
+	public void setclick(boolean c)
+	{
+		this.click = false;
 	}
 
 	@Override
