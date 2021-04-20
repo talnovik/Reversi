@@ -57,14 +57,98 @@ public class Board {
 	
 	public boolean vaild_move(int x, int y)
 	{
-		return true;
-		/*
+		
 		if(this.board[x][y] == EMPTY)
 		{
-			if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY)
-				return true;
+			/*
+			if (x > 0 && x < SIZE - 1 && y > 0 && y < SIZE - 1)
+			{
+				if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY
+						 || this.board[x+1][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
+				{
+					return true;
+				}
+			}
+			
+			*/
+			
+			
+			
+			if(x == 0)
+			{
+				if(y == 0)
+				{
+					if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x+1][y+1] != EMPTY)
+						return true;
+				}
+				else
+					if(y == SIZE - 1)
+					{
+						if(this.board[x+1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y-1] != EMPTY)
+							return true;
+					}
+					else
+					{
+						if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY || this.board[x+1][y-1] != EMPTY)
+							return true;
+					}
+			}
+			else
+			{
+				if(x == SIZE - 1)
+				{
+					if(y == 0)
+					{
+						if(this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x-1][y+1] != EMPTY)
+							return true;
+					}
+					else
+					{
+						if(y == SIZE - 1)
+						{
+							if(this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x-1][y-1] != EMPTY)
+								return true;
+						}
+						else
+						{
+							if(this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
+								return true;
+						}
+					}
+				}
+				else
+				{
+					if(y == 0)
+					{
+						if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x+1][y+1] != EMPTY || this.board[x-1][y+1] != EMPTY)
+						{
+							return true;
+						}
+					}
+					else
+					{
+						if(y == SIZE - 1)
+						{
+							if(this.board[x+1][y] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y-1] != EMPTY|| this.board[x-1][y-1] != EMPTY)
+							{
+								return true;
+							}
+						}
+						else
+						{
+							if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY
+									 || this.board[x+1][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
 		}
-		return false;*/
+		
+		return false;
+			
 	}
 	
 	public int GetPiece(int x, int y)
