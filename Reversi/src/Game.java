@@ -20,11 +20,19 @@ public class Game {
 		int x;
 		int y;
 		int winner;
+		while(GamePanel.getvp() == false)
+		{
+			try {
+				TimeUnit.NANOSECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		while(!board.game_over())
 		{	
 			if(GamePanel.getclick() == true)
 			{
-				GamePanel.setclick(false);
 				x = GamePanel.getposx();
 				y = GamePanel.getposy();
 				int turn = board.getTurn();
@@ -41,6 +49,7 @@ public class Game {
 					else
 						GamePanel.setTitle("TURN: WHITE PLAYER");
 				}
+				GamePanel.setclick(false);
 			}
 			GamePanel.repaint();
 		}

@@ -27,6 +27,7 @@ public class GUI extends JFrame  implements MouseListener{
 	private static JLabel countBlack = new JLabel();
 	private static JLabel countWhite = new JLabel();
 	private static boolean click;
+	private static boolean vp = false;
 	
 
 	public GUI(Board b)
@@ -97,6 +98,7 @@ public class GUI extends JFrame  implements MouseListener{
 	
 	public void gamePVP()
 	{
+		this.vp = true;
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		title = new JLabel("TURN: BLACK PLAYER");
 		Font font = new Font("TURN: BLACK PLAYER", Font.BOLD, 25);
@@ -160,7 +162,6 @@ public class GUI extends JFrame  implements MouseListener{
 		
 		countBlack.setText("Black Disks: " + board.count_black());
 		countWhite.setText("White Disks: " + board.count_white());
-		repaint();
 	}
 	
 	public void setTitle(String s)
@@ -187,7 +188,12 @@ public class GUI extends JFrame  implements MouseListener{
 	{
 		this.click = false;
 	}
-
+	
+	public boolean getvp()
+	{
+		return this.vp;
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
