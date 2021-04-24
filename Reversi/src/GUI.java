@@ -14,23 +14,22 @@ public class GUI extends JFrame  implements MouseListener{
 	private static final int WHITE_DISK = 2;
 	private static JPanel TitlePanel = new JPanel();
 	private static PaintBoard game;
-	private static JPanel bottomPanel = new JPanel();
 	private static Board board;
 	private static int posx;
 	private static int posy;
 	private JLabel title;
-	private static JPanel menu = new JPanel();
 	private static JButton vsplayer = new JButton();
 	private static JButton vsAI = new JButton();
 	private static JButton exit = new JButton();
 	private static JLabel menuTitle = new JLabel();
-	private static JLabel countBlack = new JLabel();
-	private static JLabel countWhite = new JLabel();
+	public static JLabel countBlack = new JLabel();
+	public static JLabel countWhite = new JLabel();
 	private static boolean click;
 	private static boolean vp = false;
+	private static boolean vai = false;
 	
 
-	public GUI(Board b)
+	public GUI(Board b) //Initialize GUI
 	{
 		board = b;
 		menu();
@@ -40,7 +39,7 @@ public class GUI extends JFrame  implements MouseListener{
  	   return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	
-	public void menu()
+	public void menu() // initialize the menu
 	{
 		setSize(DEFAULT_WIDTH/3, DEFAULT_HEIGHT/3);
 		
@@ -81,6 +80,16 @@ public class GUI extends JFrame  implements MouseListener{
 			}
 		});
         
+        vsAI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainP.removeAll();
+				gamePVAI();
+				
+			}
+		});
+        
 		exit.addActionListener(new ActionListener() {
 					
 					@Override
@@ -96,7 +105,7 @@ public class GUI extends JFrame  implements MouseListener{
 	}
 	
 	
-	public void gamePVP()
+	public void gamePVP() // initialize the game of Player VS Player
 	{
 		this.vp = true;
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -126,8 +135,42 @@ public class GUI extends JFrame  implements MouseListener{
 		pack();
 	}
 	
+	public void gamePVAI() // initialize the game of Player VS AI
+	{
+		this.vai = true;
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		title = new JLabel("TURN: BLACK PLAYER");
+		Font font = new Font("TURN: BLACK PLAYER", Font.BOLD, 25);
+		title.setFont(font);
+		TitlePanel.add(title, BorderLayout.CENTER);
+		TitlePanel.setSize(1200, 50);
+		TitlePanel.setVisible(true);
+		game = new PaintBoard(board);
+		game.setSize(1200, 860);
+		add(TitlePanel);
+		add(game);
+		Container gameP = getContentPane();
+        gameP.setLayout(null);
+        gameP.add(countBlack);
+        countBlack.setFont(new Font("Arial",Font.BOLD,35));
+        countWhite.setFont(new Font("Arial",Font.BOLD,35));
+        countBlack.setBounds(200, 880, 300, 50);
+        countWhite.setBounds(800, 880, 300, 50);
+        gameP.add(countWhite);
+        countBlack.setVisible(true);
+		setVisible(true);
+		this.addMouseListener(this);
+		pack();
+	}
+	
+	public void setboard(Board b) // painting the board on the screen
+	{
+		this.board = b;
+		game = new PaintBoard(b);
+	}
+	
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) { // returning the position of the mouse click
 		
 		int x = e.getX(), y = e.getY();
 		if(x >= 210 && y >= 80 && x <= 1010 && y <= 880)
@@ -136,32 +179,6 @@ public class GUI extends JFrame  implements MouseListener{
 			this.posy = (y - 80)/SQUARE;
 			this.click = true;
 		}
-		/*
-		int x = e.getX(), y = e.getY();
-		x = x/SQUARE - 2;
-		y = (y - 80)/SQUARE;
-		int turn = board.getTurn();
-		if (board.vaild_move(x, y))
-		{
-			board.PutPiece(x, y, turn);
-			board.updateBoardFix2(x,y, turn);
-			if (board.getTurn() == BLACK_DISK)
-				board.setTurn(WHITE_DISK);
-			else
-				board.setTurn(BLACK_DISK);
-			if(board.getTurn() == BLACK_DISK)
-				title.setText("TURN: BLACK PLAYER");
-			else
-				title.setText("TURN: WHITE PLAYER");
-		}
-		countBlack.setText("Black Disks: " + board.count_black());
-		countWhite.setText("White Disks: " + board.count_white());
-		repaint();
-		
-		*/
-		
-		countBlack.setText("Black Disks: " + board.count_black());
-		countWhite.setText("White Disks: " + board.count_white());
 	}
 	
 	public void setTitle(String s)
@@ -194,6 +211,10 @@ public class GUI extends JFrame  implements MouseListener{
 		return this.vp;
 	}
 	
+	public boolean getvai()
+	{
+		return this.vai;
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -221,7 +242,7 @@ public class GUI extends JFrame  implements MouseListener{
 }
 
 
-class PaintBoard extends JPanel {
+class PaintBoard extends JPanel { // a class that painting the board on the screen
 	private static final int SIZE = 8;
 	private static final int SQUARE = 100;
 	private static final int START = SQUARE/2;
@@ -238,6 +259,9 @@ class PaintBoard extends JPanel {
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		g.setColor(Color.green);
+		g.fillRect(2*SQUARE, START, 8*SQUARE, 8*SQUARE);
+		g.setColor(Color.black);
 		for(int i = 0; i <= SIZE; i++)
 		{
 			g.drawLine(2*SQUARE, i*SQUARE+START, SIZE*SQUARE+2*SQUARE, i*SQUARE+START);
