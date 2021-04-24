@@ -51,6 +51,10 @@ public class Game {
 					y = GamePanel.getposy();
 					int turn = board.getTurn();
 					ArrayList<Move> moves = board.possibleMoves(turn); // getting all of the possible moves
+					if(moves.isEmpty())
+					{
+						board.setTurn(3 - turn);
+					}
 					for(int i = 0; i < moves.size(); i++)
 					{
 						if(moves.get(i).getX() == x && moves.get(i).getY() == y) // checking for valid move
@@ -83,6 +87,10 @@ public class Game {
 					y = GamePanel.getposy();
 					int turn = board.getTurn();
 					ArrayList<Move> moves = board.possibleMoves(turn);
+					if(moves.isEmpty())
+					{
+						board.setTurn(3 - turn);
+					}
 					for(int i = 0; i < moves.size(); i++)
 					{
 						if(moves.get(i).getX() == x && moves.get(i).getY() == y)
@@ -125,6 +133,10 @@ public class Game {
 					y = GamePanel.getposy();
 					int turn = board.getTurn();
 					ArrayList<Move> moves = board.possibleMoves(turn);
+					if(moves.isEmpty())
+					{
+						board.setTurn(3 - turn);
+					}
 					for(int i = 0; i < moves.size(); i++)
 					{
 						if(moves.get(i).getX() == x && moves.get(i).getY() == y)
