@@ -303,7 +303,7 @@ public class Board {
         
         try
         {
-            score = (b - w) / (b + w);
+            score = (w - b) / (w + b);
         }
         catch (Exception e)
         {
@@ -317,7 +317,7 @@ public class Board {
 
         try
         {
-            score += (b - w) / (b + w);
+            score += (w - b) / (w + b);
         }
         catch (Exception e)
         {
