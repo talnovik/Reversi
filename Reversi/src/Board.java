@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class Board {
 	private static final int SIZE = 8;
@@ -6,9 +7,10 @@ public class Board {
 	private static final int WHITE_DISK = 2;
 	private int turn;
 	private int [][] board = new int[SIZE][SIZE]; // 0 = empty, 1 = black, 2 = white
+	public int score;
 	
 	
-	public Board()
+	public Board() // board initialize
 	{
 		for(int i = 0; i < SIZE; i++)
 		{
@@ -55,108 +57,14 @@ public class Board {
 		this.board[x][y] = color;
 	}
 	
-	public boolean vaild_move(int x, int y)
-	{
-		
-		if(this.board[x][y] == EMPTY)
-		{
-			/*
-			if (x > 0 && x < SIZE - 1 && y > 0 && y < SIZE - 1)
-			{
-				if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY
-						 || this.board[x+1][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
-				{
-					return true;
-				}
-			}
-			
-			*/
-			
-			
-			
-			if(x == 0)
-			{
-				if(y == 0)
-				{
-					if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x+1][y+1] != EMPTY)
-						return true;
-				}
-				else
-					if(y == SIZE - 1)
-					{
-						if(this.board[x+1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y-1] != EMPTY)
-							return true;
-					}
-					else
-					{
-						if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY || this.board[x+1][y-1] != EMPTY)
-							return true;
-					}
-			}
-			else
-			{
-				if(x == SIZE - 1)
-				{
-					if(y == 0)
-					{
-						if(this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x-1][y+1] != EMPTY)
-							return true;
-					}
-					else
-					{
-						if(y == SIZE - 1)
-						{
-							if(this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x-1][y-1] != EMPTY)
-								return true;
-						}
-						else
-						{
-							if(this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
-								return true;
-						}
-					}
-				}
-				else
-				{
-					if(y == 0)
-					{
-						if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x+1][y+1] != EMPTY || this.board[x-1][y+1] != EMPTY)
-						{
-							return true;
-						}
-					}
-					else
-					{
-						if(y == SIZE - 1)
-						{
-							if(this.board[x+1][y] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y-1] != EMPTY|| this.board[x-1][y-1] != EMPTY)
-							{
-								return true;
-							}
-						}
-						else
-						{
-							if(this.board[x+1][y] != EMPTY || this.board[x][y+1] != EMPTY || this.board[x-1][y] != EMPTY || this.board[x][y-1] != EMPTY || this.board[x+1][y+1] != EMPTY
-									 || this.board[x+1][y-1] != EMPTY || this.board[x-1][y+1] != EMPTY || this.board[x-1][y-1] != EMPTY)
-							{
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return false;
-			
-	}
+	
 	
 	public int GetPiece(int x, int y)
 	{
 		return this.board[x][y];
 	}
 	
-	public boolean game_over()
+	public boolean game_over() // Checking if the is over
 	{
 		
 		int count_black = 0;
@@ -188,7 +96,7 @@ public class Board {
 		return true;
 	}
 	
-	public int check_winner()
+	public int check_winner() // returning winner
 	{
 		int count_black = 0;
 		int count_white = 0;
@@ -211,7 +119,7 @@ public class Board {
 			return EMPTY;
 	}
 	
-	public int count_black()
+	public int count_black() // returning how many black disks are in the board
 	{
 		int count = 0;
 		for(int i = 0; i<SIZE; i++)
@@ -226,7 +134,9 @@ public class Board {
 		return count;
 	}
 	
-	public int count_white()
+
+	
+	public int count_white() // returning how many white disks are in the board
 	{
 		int count = 0;
 		for(int i = 0; i<SIZE; i++)
@@ -241,701 +151,182 @@ public class Board {
 		return count;
 	}
 	
-	public boolean block_by_line(int x)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for(int y = 0; y < SIZE; y++)
-		{
-			if(blocker1 == blocker2  && blocker1 != EMPTY)
-				break;
-			if(blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2 && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
 	
-	public boolean block_by_column(int y)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for (int x = 0; x < SIZE; x++)
-		{
-			if(blocker1 == blocker2  && blocker1 != EMPTY)
-				break;
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
+	public ArrayList<Move> possibleMoves(int curr_color) // returning an Array of possible moves
+    {
+        ArrayList<Move> a = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++)
+        {
+            for (int j = 0; j < SIZE; j++)
+            {
+            	int current[] = new int[3];
+            	current[0] = i; // x
+            	current[1] = j; // y
+            	current[2] = this.GetPiece(i, j); // color
+                if (current[2] == EMPTY)
+                {
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for (int y = -1; y <= 1; y++)
+                        {
+                            if (x != 0 || y != 0)
+                            {
+                                try
+                                {
+                                	int[] near = new int[3];
+                                	near[0] = current[0] + x;
+                                	near[1] = current[1] + y;
+                                	near[2] = this.GetPiece(near[0], near[1]);
+                                    if (near[2] == 3 - curr_color)
+                                    {
+                                        int counter = 0;
+                                        while (near[2] != EMPTY)
+                                        {
+                                        	near[0] = near[0] + x;
+                                        	near[1] = near[1] + y;
+                                        	near[2] = this.GetPiece(near[0], near[1]);
+                                            counter++;
+                                            if (near[2] == curr_color)
+                                            {
+                                                boolean found = false;
+                                                for (Move move : a)
+                                                {
+                                                    if (move.getX() == current[0] && move.getY() == current[1])
+                                                    {
+                                                    		move.addDirection(new int[]{x, y, counter});
+                                                            found = true;
+                                                            break;
+                                                    }
+                                                        
+                                                }
+                                                if (!found)
+                                                {
+                                                    Move temp_move = new Move(current[0], current[1]);
+                                                    temp_move.addDirection(new int[]{x, y, counter});
+                                                    a.add(temp_move);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        return a;
+    }
 	
-	public boolean block_by_diagonal_left_down(int x)
+	public Board copyboard() // returning a copy of the board
 	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for (int y = 0; y < SIZE && x < SIZE; y++, x++)
-		{
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public boolean block_by_diagonal_up_right(int y)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for (int x = 0; x < SIZE && y < SIZE; y++, x++)
-		{
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public boolean block_by_diagonal_right_down(int x)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for (int y = SIZE - 1; y >= 0 && x < SIZE; y--, x++)
-		{
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public boolean block_by_diagonal_up_left(int y)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for (int x = 0; x < SIZE && y >= 0; y--, x++)
-		{
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public boolean block_by_diagonal_left_right(int x, int y)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for(; x > 0 && y > 0; x--, y--);
-		for(; x < SIZE && y < SIZE; x++, y++)
-		{
-			if(blocker1 == blocker2  && blocker1 != EMPTY)
-				break;
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public boolean block_by_diagonal_right_left(int x, int y)
-	{
-		int blocker1 = EMPTY;
-		int blocker2 = EMPTY;
-		for(; x > 0 && y < SIZE - 1; x--, y++);
-		for(; x < SIZE && y >= 0; x++, y--)
-		{
-			if(blocker1 == blocker2  && blocker1 != EMPTY)
-				break;
-			if (blocker1 == EMPTY)
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker1 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker1 = BLACK_DISK;
-				}
-			}
-			else
-			{
-				if(GetPiece(x, y) == WHITE_DISK)
-				{
-					blocker2 = WHITE_DISK;
-				}
-				else if(GetPiece(x, y) == BLACK_DISK)
-				{
-					blocker2 = BLACK_DISK;
-				}
-			}
-		}
-		if(blocker1 == blocker2  && blocker1 != EMPTY)
-			return true;
-		return false;
-	}
-	
-	public void UpdateBoard()
-	{
-		int sign;
-		boolean flag;
+		Board copy = new Board();
 		for(int i = 0; i < SIZE; i++)
-		{
-			sign = EMPTY;
-			flag = block_by_line(i);
-			if(flag)
-			{
-				for(int j = 0; j < SIZE; j++)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(i, j) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(i, j) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(i, j) != sign && GetPiece(i, j) != EMPTY)
-							PutPiece(i, j, sign);
-					}
-					
-				}
-			}
-		}
-		for(int j = 0; j < SIZE; j++)
-		{
-			sign = EMPTY;
-			flag = block_by_column(j);
-			if(flag)
-			{
-				for(int i = 0; i < SIZE; i++)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(i, j) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(i, j) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(i, j) != sign && GetPiece(i, j) != EMPTY)
-							PutPiece(i, j, sign);
-					}
-				}
-			}
-		}
-		for(int i = 0; i < SIZE; i++)
-		{
-			sign = EMPTY;
-			flag = block_by_diagonal_left_down(i);
-			if(flag)
-			{
-				for(int j = 0, x = i; j < SIZE && x < SIZE; j++, x++)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(x, j) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(x, j) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(x, j) != sign && GetPiece(x, j) != EMPTY)
-							PutPiece(x, j, sign);
-					}
-					
-				}
-			}
-		}
-		for(int j = 0; j < SIZE; j++)
-		{
-			sign = EMPTY;
-			flag = block_by_diagonal_up_right(j);
-			if(flag)
-			{
-				for(int i = 0, y = j; i < SIZE && y < SIZE; i++, y++)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(i, y) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(i, y) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(i, y) != sign && GetPiece(i, y) != EMPTY)
-							PutPiece(i, y, sign);
-					}
-					
-				}
-			}
-		}
-		for(int i = 0; i < SIZE; i++)
-		{
-			sign = EMPTY;
-			flag = block_by_diagonal_right_down(i);
-			if(flag)
-			{
-				for(int j = SIZE - 1, x = i; j >= 0 && x < SIZE; j--, x++)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(x, j) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(x, j) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(x, j) != sign && GetPiece(x, j) != EMPTY)
-							PutPiece(x, j, sign);
-					}
-					
-				}
-			}
-		}
-		for(int j = 0; j < SIZE; j++)
-		{
-			sign = EMPTY;
-			flag = block_by_diagonal_up_left(j);
-			if(flag)
-			{
-				for(int i = 0, y = j; i < SIZE && y >= 0; i++, y--)
-				{
-					if(sign == EMPTY)
-					{
-						if(GetPiece(i, y) == WHITE_DISK)
-						{
-							sign = WHITE_DISK;
-						}
-						else if(GetPiece(i, y) == BLACK_DISK)
-						{
-							sign = BLACK_DISK;
-						}
-					}
-					else
-					{
-						if(GetPiece(i, y) != sign && GetPiece(i, y) != EMPTY)
-							PutPiece(i, y, sign);
-					}
-					
-				}
-			}
-		}
-	}
-	
-	public void UpdateBoardFix(int x, int y)
-	{
-		int sign = EMPTY;
-		if(block_by_line(x))
 		{
 			for(int j = 0; j < SIZE; j++)
 			{
-				if(GetPiece(x, j) == sign && GetPiece(x, j) != EMPTY)
-					break;
-				if(sign == EMPTY)
-				{
-					if(GetPiece(x, j) == WHITE_DISK)
-					{
-						sign = WHITE_DISK;
-					}
-					else if(GetPiece(x, j) == BLACK_DISK)
-					{
-						sign = BLACK_DISK;
-					}
-				}
-				else
-				{
-					if(GetPiece(x, j) == sign)
-						break;
-					if(GetPiece(x, j) != sign && GetPiece(x, j) != EMPTY)
-						PutPiece(x, j, sign);
-				}
-				
+				copy.PutPiece(i, j, this.GetPiece(i, j));
 			}
 		}
-		sign = EMPTY;
-		if(block_by_column(y))
-		{
-			for(int i = 0; i < SIZE; i++)
-			{
-				if(GetPiece(i, y) == sign && GetPiece(i, y) != EMPTY)
-					break;
-				if(sign == EMPTY)
-				{
-					if(GetPiece(i, y) == WHITE_DISK)
-					{
-						sign = WHITE_DISK;
-					}
-					else if(GetPiece(i, y) == BLACK_DISK)
-					{
-						sign = BLACK_DISK;
-					}
-				}
-				else
-				{
-					if(GetPiece(i, y) != sign && GetPiece(i, y) != EMPTY)
-						PutPiece(i, y, sign);
-				}
-				
-			}
-		}
-		sign = EMPTY;
-		if(block_by_diagonal_left_right(x, y))
-		{
-			int i, j;
-			for(i = x, j = y; i > 0 && j > 0; i--, j--);
-			for(; j < SIZE && i < SIZE; j++, i++)
-			{
-				if(GetPiece(i, j) == sign && GetPiece(i, j) != EMPTY)
-					break;
-				if(sign == EMPTY)
-				{
-					if(GetPiece(i, j) == WHITE_DISK)
-					{
-						sign = WHITE_DISK;
-					}
-					else if(GetPiece(i, j) == BLACK_DISK)
-					{
-						sign = BLACK_DISK;
-					}
-				}
-				else
-				{
-					if(GetPiece(x, j) == sign)
-						break;
-					if(GetPiece(i, j) != sign && GetPiece(i, j) != EMPTY)
-						PutPiece(i, j, sign);
-				}
-				
-			}
-		}
-		sign = EMPTY;
-		if(block_by_diagonal_right_left(x, y))
-		{
-			int i, j;
-			for(i = x, j = y; i > 0 && j < SIZE - 1; i--, j++);
-			for(; i < SIZE && j >= 0; j--, i++)
-			{
-				if(GetPiece(i, j) == sign && GetPiece(i, j) != EMPTY)
-					break;
-				if(sign == EMPTY)
-				{
-					if(GetPiece(i, j) == WHITE_DISK)
-					{
-						sign = WHITE_DISK;
-					}
-					else if(GetPiece(i, j) == BLACK_DISK)
-					{
-						sign = BLACK_DISK;
-					}
-				}
-				else
-				{
-					if(GetPiece(x, j) == sign)
-						break;
-					if(GetPiece(i, j) != sign && GetPiece(i, j) != EMPTY)
-						PutPiece(i, j, sign);
-				}
-				
-			}
-		}
+		return copy;
 	}
 	
+	public Board turn(Board b, Move move, int color) // making the player/AI turn
+    {
+		
+		b.PutPiece(move.getX(), move.getY(), color);
+
+        for (int[] i : move.getDirections())
+        {
+            int vx = move.getX() + i[0];
+            int vy = move.getY() + i[1];
+
+            for (int j = 0; j < i[2]; j++)
+            {
+            	b.PutPiece(vx, vy, color);
+
+                vx += i[0];
+                vy += i[1];
+            }
+        }
+        b.evaluate();
+        return b;
+    }
+
 	
-	public void updateBoardFix2(int x, int y, int color)
+	public ArrayList<Board> movestoboards(int color) // converting the moves to boards
+    {
+        ArrayList<Board> boards = new ArrayList<Board>();
+
+        for (Move m : this.possibleMoves(color))
+        {
+            boards.add(turn(this.copyboard(), m, color));
+        }
+        return boards;
+    }
+	
+	public void evaluate() // evaluate the board and giving him score
 	{
-		int i, j;
-		if(x < SIZE - 1)
-		{
-			for (i = x+1, j = y; i < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (; i > x; i--)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(x > 0)
-		{
-			for (i = x-1, j = y; i > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (; i < x; i++)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(y < SIZE - 1)
-		{
-			for (i = x, j = y+1; j < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; j++)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (; j > y; j--)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(y > 0)
-		{
-			for (i = x, j = y-1; j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; j--)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (; j < y; j++)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(x < SIZE - 1 && y < SIZE - 1)
-		{
-			for (i = x+1, j = y+1; i < SIZE-1 && j < SIZE-1 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++, j++)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (;i > x && j > y; i--, j--)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(x < SIZE - 1 && y > 0)
-		{
-			for (i = x+1, j = y-1; i < SIZE-1 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i++, j--)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (;i > x && j < y; i--, j++)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(x > 0 && y < SIZE - 1)
-		{
-			for (i = x-1, j = y+1; i < SIZE-1 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--, j++)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (;i < x && j > y; i++, j--)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
-		if(x > 0 && y > 0)
-		{
-			for (i = x-1, j = y-1; i > 0 && j > 0 && GetPiece(i, j) != color && GetPiece(i, j) != EMPTY; i--, j--)
-			{
-			}
-			if (GetPiece(i, j) == color)
-			{
-				for (;i < x && j < y; i++, j++)
-				{
-					PutPiece(i, j, color);
-				}
-			}
-		}
+		score = 0;
+		int[][] board_value =
+            {
+                    {20, -3, 11, 8,  8, 11, -3, 20},
+                    {-3, -7, -4, 1,  1, -4, -7, -3},
+                    {11, -4, 2,  2,  2,  2, -4, 11},
+                    { 8,  1, 2, -3, -3,  2,  1,  8},
+                    { 8,  1, 2, -3, -3,  2,  1,  8},
+                    {11, -4, 2,  2,  2,  2, -4, 11},
+                    {-3, -7, -4, 1,  1, -4, -7, -3},
+                    {20, -3, 11, 8,  8, 11, -3, 20}
+            };
+
+		int b = 0, w = 0;
+        for(int i = 0; i < SIZE; i++)
+        {
+            for(int j = 0; j < SIZE; j++)
+            {
+                if(this.GetPiece(i, j) == BLACK_DISK)
+                {
+                    b += board_value[i][j];
+                }
+                else if(this.GetPiece(i, j) == WHITE_DISK)
+                {
+                    w += board_value[i][j];
+                }
+            }
+        }
+        
+        try
+        {
+            score = (b - w) / (b + w);
+        }
+        catch (Exception e)
+        {
+            score = 0;
+        }
+
+        
+        b += this.possibleMoves(BLACK_DISK).size();
+        w += this.possibleMoves(WHITE_DISK).size();
+        
+
+        try
+        {
+            score += (b - w) / (b + w);
+        }
+        catch (Exception e)
+        {
+            score = 0;
+        }
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }
+
+
